@@ -1,6 +1,7 @@
 package com.sparta.blogspring.entity;
 
 
+import com.sparta.blogspring.Dto.BlogRequestDto;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,12 @@ public class Blog {
     private String username;
     private String password;
     private String contents;
-    private Date createdAt;
-    private String titletitle;
+
+    public Blog(BlogRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.username = requestDto.getUsername();
+        this.contents = requestDto.getContents();
+        this.password = requestDto.getPassword();
+
+    }
 }

@@ -4,21 +4,44 @@ package com.sparta.blogspring.Controller;
 import com.sparta.blogspring.Dto.BlogRequestDto;
 import com.sparta.blogspring.Dto.BlogResponseDto;
 import com.sparta.blogspring.entity.Blog;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class BlogController {
 
-    @PostMapping("/blog")
+    private final Map<Long, Blog> blogList = new HashMap<>();
+
+    @PostMapping("/blog")   //생성하기
     public BlogResponseDto createBlog(@RequestBody BlogRequestDto requestDto) {
-            return null;
+        //RequestDto --> Entity
+        Blog blog = new Blog(requestDto);
 
+        // Max ID Check
+        Long maxId = blogList.size() > 0 ? Collections.max(blogList.keySet()) + 1 : 1;
+        blog.setId(maxId);
+        //DB저장
+        blogList.put(blog.getId(), blog);
 
+        //Entity -> ResponsdeDto
+        BlogResponseDto blogResponseDto = new BlogResponseDto(blog);
+
+        return blogResponseDto;
     }
 
+
+    @GetMapping("/blog")
+    public List<BlogResponseDto> getBlog() {
+        //Map - List
+        List<BlogResponseDto> responseList = blogList.values().stream().map(BlogResponseDto::new).toList();
+
+        return responseList;
+
+    }
 
 }
