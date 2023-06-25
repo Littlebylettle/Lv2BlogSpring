@@ -44,4 +44,29 @@ public class BlogController {
 
     }
 
+    @PutMapping("/blog/{id}")
+    public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
+        //해당 메모의 db존제 확인
+        if (blogList.containsKey(id)) {
+            // 해당 데이터 가져오기
+            Blog blog = blogList.get(id);
+            // 데이터 수정
+
+            blog.update(requestDto);
+            return id;
+        } else {
+            throw new IllegalArgumentException("선택한 데이터는 존재하지 않습니다");
+        }
+    }
+
+    @DeleteMapping("/blog/{id}")
+    public Long deleteBlog(@PathVariable Long id) {
+        //헤당 데이터 확인
+        if (blogList.containsKey(id)) {
+            blogList.remove(id);
+            return id;
+        } else {
+            throw new IllegalArgumentException("선택한 데이터는 존재하지 않습니다");
+        }
+    }
 }
