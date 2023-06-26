@@ -39,7 +39,7 @@ public class BlogService {
 
     public List<BlogResponseDto> getBlog() {
         //DB조회
-        return blogRepository.findAll().stream().map(BlogResponseDto::new).toList();
+        return blogRepository.findAllByOrderByCreatedAtDesc().stream().map(BlogResponseDto::new).toList();
 
     }
 
