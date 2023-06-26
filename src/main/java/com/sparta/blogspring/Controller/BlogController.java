@@ -24,22 +24,28 @@ public class BlogController {
         return blogService.createBlog(requestDto);
     }
 
-
+    //조회하기
     @GetMapping("/blog")
     public List<BlogResponseDto> getBlog() {
 
         return blogService.getBlog();
 
     }
-    @PutMapping("/blog/{id}")
-    public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
+    //단건조회하기
+    @GetMapping("/blog/{id}")
+    public BlogResponseDto getOneBlog(@PathVariable Long id) { return blogService.getOneBlog(id); }
 
-        return blogService.updateBlog(id, requestDto);
+
+    //수정하기
+    @PutMapping("/blog/{id}")
+    public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto, @RequestParam String password) {
+
+        return blogService.updateBlog(id,requestDto,password);
     }
 
     @DeleteMapping("/blog/{id}")
-    public Long deleteBlog(@PathVariable Long id) {
+    public String deleteBlog(@PathVariable Long id, @RequestParam String password) {
 
-        return blogService.deleteBlog(id);
+        return blogService.deleteBlog(id,password);
     }
 }
