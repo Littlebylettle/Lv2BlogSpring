@@ -3,12 +3,9 @@ package com.sparta.blogspring.entity;
 
 import com.sparta.blogspring.Dto.BlogRequestDto;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Date;
 
 @Entity // JPA가 관리할 수 있는 엔티티 클래스 지정
 @Getter
@@ -16,7 +13,7 @@ import java.util.Date;
 @Table(name = "blog") // 매핑할 테이블 이름 지정
 @NoArgsConstructor
 
-public class Blog {
+public class Blog extends TimeStamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //구별 식별자
