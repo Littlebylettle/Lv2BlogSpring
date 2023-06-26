@@ -3,8 +3,6 @@ package com.sparta.blogspring.Dto;
 
 import lombok.Getter;
 
-import java.util.Date;
-
 @Getter
 public class BlogRequestDto {
 

@@ -46,31 +46,26 @@ public class BlogService {
 
     //수정하기
     @Transactional
-    public Long updateBlog(Long id, BlogRequestDto requestDto, String password) {
+    public BlogResponseDto updateBlog(Long id, BlogRequestDto requestDto) {
 
-        //해당 메모의 DB존재 확인
+        //해당 메모의 DB확인
         Blog blog = findBlog(id);
-        if(password.equals(blog.getPassword())) {
-            blog.update(requestDto);
 
-            return id;
-        } else {
-            throw new IllegalArgumentException("틀린 암호입니다");
-        }
+        //비밀번호 확인 후 update 사용
+        blog.checkPassword(requestDto.getPassword());
+        blog.update(requestDto);
+
+        return new BlogResponseDto(blog);
 
     }
     //삭제하기
-    public String deleteBlog(Long id, String password) {
+    public void deleteBlog(Long id, String password) {
 
         Blog blog = findBlog(id);
 
-        if(password.equals(blog.getPassword())) {
-            blogRepository.delete(blog);
-
-            return "삭제되었습니다.";
-        } else {
-            return "틀린 암호입니다";
-        }
+        blog.checkPassword(password);
+        //삭제
+        blogRepository.delete(blog);
 
     }
 

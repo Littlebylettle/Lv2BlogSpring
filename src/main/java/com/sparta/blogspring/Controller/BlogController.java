@@ -15,13 +15,13 @@ public class BlogController {
     private final BlogService blogService;
     public BlogController(BlogService blogService){
         this.blogService = blogService;
-    } //객체의 중복생성 방지
+    } //객체의 중복생성 방지 -> 느슨한 결합을 통한 제어의 역전 3Layer
 
 
     @PostMapping("/blog")   //생성하기
     public BlogResponseDto createBlog(@RequestBody BlogRequestDto requestDto) {
 
-        return blogService.createBlog(requestDto);
+        return blogService.createBlog(requestDto); //Body 데이터를 api전달
     }
 
     //조회하기
@@ -38,14 +38,15 @@ public class BlogController {
 
     //수정하기
     @PutMapping("/blog/{id}")
-    public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto, @RequestParam String password) {
+    public BlogResponseDto updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
 
-        return blogService.updateBlog(id,requestDto,password);
+        return blogService.updateBlog(id, requestDto);
     }
 
     @DeleteMapping("/blog/{id}")
-    public String deleteBlog(@PathVariable Long id, @RequestParam String password) {
+    public BlogResponseDto deleteBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
+        blogService.deleteBlog(id,requestDto.getPassword());
 
-        return blogService.deleteBlog(id,password);
+        return new BlogResponseDto(true); //반환된 true값이 BlogResponseDto의 객체를 생성한 후 반환
     }
 }

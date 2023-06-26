@@ -43,4 +43,10 @@ public class Blog extends TimeStamped{
         this.contents = requestDto.getContents();
 
     }
+
+    public void checkPassword(String password) {
+        if (!password.equals(password)) {
+            throw new IllegalArgumentException("틀린 비밀번호입니다");
+        }
+    }
 }
